@@ -5,10 +5,11 @@ name: Tag stable MicroCeph commit
 # Controls when the action will run. Workflow runs when there is a new stable channel
 # promoted on Snapcraft
 on:
-# Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch: null
-#  schedule:
-#    - cron: '0 0 * * MON,THU' # Runs biweekly on Tuesdays and Thursdays
+  # Trigger on PRs to main
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main  # change if your default branch is different
 jobs:
   tag-stable-commit:
    # The type of runner that the job will run on
