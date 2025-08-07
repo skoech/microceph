@@ -96,8 +96,8 @@ jobs:
            const commits = await github.paginate(
              github.rest.repos.listCommits,
              {
-               owner: context.repo.owner,
-               repo: context.repo.repo,
+               owner: skoech,
+               repo:  skoech/microceph,
                per_page: 100
              }
            );
@@ -130,8 +130,8 @@ jobs:
            const tags = await github.paginate(
              github.rest.repos.listTags,
                {
-                 owner: context.repo.owner,
-                 repo: context.repo.repo,
+                 owner: skoech,
+                 repo: skoech/microceph,
                  per_page: 100
                }
             );
@@ -146,8 +146,8 @@ jobs:
            } else {
              core.info(`Tag "${stableTag}" points to a different commit (${existingTag.commit.sha}). Updating to ${commitSha}...`);
              await github.rest.git.updateRef({
-               owner: context.repo.owner,
-               repo: context.repo.repo,
+               owner: skoech,
+               repo: skoech/microceph,
                ref: `tags/${stableTag}`,
                sha: commitSha,
                force: true
@@ -160,8 +160,8 @@ jobs:
            // Create tag if it doesn't exist
            core.info(`Creating new tag "${stableTag}" pointing to commit ${commitSha}`);
            await github.rest.git.createRef({
-             owner: context.repo.owner,
-             repo: context.repo.repo,
+             owner: skoech,
+             repo: skoech/microceph,
              ref: `refs/tags/${stableTag}`,
              sha: commitSha
            });
