@@ -29,7 +29,7 @@ jobs:
        id: snap
        uses: actions/github-script@v7
        with:
-         github-token: ${{ env.GH_TOKEN }}
+         github-token: ${{ secrets.GITHUB_TOKEN }}
          script: |
            const { execSync } = require('child_process');
             // Run `snap info microceph`
