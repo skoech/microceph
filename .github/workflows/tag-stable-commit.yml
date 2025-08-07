@@ -89,28 +89,28 @@ jobs:
        id: verify
        uses: actions/github-script@v7
        with: 
-          github-token: ${{ secrets.PAT_TOKEN }}
-          script: |
-            const target = '${{ steps.snap.outputs.commit }}'.slice(0, 7);  // 7-char prefix
-            core.info(`Looking for a commit starting with "${target}" ...`);
-            const commits = await github.paginate(
-              github.rest.repos.listCommits,
-              {
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                per_page: 100
-              }
-            );
-            const hit = commits.find(c => c.sha.startsWith(target));
-            if (hit) {
-              core.info(`Found commit: ${hit.sha} - ${hit.html_url}`);
-              // Print first line of the commit message
-              const firstLine = hit.commit.message.split('\n')[0];
-              core.info(`Commit message first line: "${firstLine}"`);
-              core.setOutput('full_sha', hit.sha); // Output full SHA
-            } else {
-              core.setFailed(`No commit starting with "${target}" found in the repository`);
-            }
+         github-token: ${{ secrets.PAT_TOKEN }}
+         script: |
+           const target = '${{ steps.snap.outputs.commit }}'.slice(0, 7);  // 7-char prefix
+           core.info(`Looking for a commit starting with "${target}" ...`);
+           const commits = await github.paginate(
+             github.rest.repos.listCommits,
+             {
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               per_page: 100
+             }
+           );
+           const hit = commits.find(c => c.sha.startsWith(target));
+             if (hit) {
+               core.info(`Found commit: ${hit.sha} - ${hit.html_url}`);
+               // Print first line of the commit message
+               const firstLine = hit.commit.message.split('\n')[0];
+               core.info(`Commit message first line: "${firstLine}"`);
+               core.setOutput('full_sha', hit.sha); // Output full SHA
+             } else {
+               core.setFailed(`No commit starting with "${target}" found in the repository`);
+             }
      # Create or update tag pointing to the verified commit
        # If the tag doesn't exist, create it
        # If the tag exists, but it points to a different commit, update it (move it forward)
